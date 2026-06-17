@@ -3,26 +3,28 @@ import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../theme/colors";
 
 interface LetterCardProps {
-    title: string;
     preview: string;
     username: string;
     date: string;
     stampCode: string;
 }
 
-export const LetterCard = ({ title, preview, username, date, stampCode }: LetterCardProps) => {
+export const LetterCard = ({ preview, username, date, stampCode }: LetterCardProps) => {
     return (
-        <View>
-            <View style={styles.cardContainer}>
+        <View style={styles.cardContainer}>
+            <View style={styles.headerRow}>
                 <Text style={styles.checkIcon}>✓✓</Text>
                 <View style={styles.stampPlaceholder}>
-                    <Text style={styles.stampPlaceholder}>{stampCode}</Text>
+                    <Text style={styles.stampText}>{stampCode}</Text>
                 </View>
             </View>
+
             <View style={styles.textContainer}>
-                <Text style={styles.title} numberOfLines={1}>{title}</Text>
-                <Text style={styles.preview} numberOfLines={3}>{preview}</Text>
+                <Text style={styles.preview} numberOfLines={4}>
+                {preview}
+                </Text>
             </View>
+
             <View style={styles.footer}>
                 <Text style={styles.username}>{username}</Text>
                 <Text style={styles.date}>{date}</Text>
@@ -68,16 +70,10 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: 15
     },
-    title: {
-        color: Colors.textPrimary,
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5
-    },
     preview: {
         color: Colors.textPrimary,
-        fontSize: 14,
-        lineHeight: 20
+        fontSize: 16,
+        lineHeight: 22
     },
     footer: {
         marginTop: 10
@@ -85,7 +81,7 @@ const styles = StyleSheet.create({
     username: {
         color: Colors.textPrimary,
         fontSize: 14,
-        fontWeight: '500'
+        fontWeight: 'bold'
     },
     date: {
         color: Colors.textSecondary,
