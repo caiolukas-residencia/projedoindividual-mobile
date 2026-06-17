@@ -244,10 +244,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: Colors.card,
+    backgroundColor: Colors.navDark,
     paddingVertical: 15,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
   },
   navIcon: {
     fontSize: 24,
