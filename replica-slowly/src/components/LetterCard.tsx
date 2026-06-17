@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../theme/colors";
+import { Ionicons } from "@expo/vector-icons";
 
 interface LetterCardProps {
     preview: string;
@@ -13,7 +14,7 @@ export const LetterCard = ({ preview, username, date, stampCode }: LetterCardPro
     return (
         <View style={styles.cardContainer}>
             <View style={styles.headerRow}>
-                <Text style={styles.checkIcon}>✓✓</Text>
+                <Ionicons name="checkmark-done" size={20} color={Colors.accentYellow} />
                 <View style={styles.stampPlaceholder}>
                     <Text style={styles.stampText}>{stampCode}</Text>
                 </View>

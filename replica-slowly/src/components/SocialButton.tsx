@@ -4,15 +4,14 @@ import { Colors } from '../theme/colors';
 
 interface SocialButtonProps {
     title: string;
-    icon: string;
-    iconColor?: string;
+    icon: React.ReactNode;
     onPress: () => void;
 }
 
-export const SocialButton = ({ title, icon, iconColor, onPress }: SocialButtonProps) => {
+export const SocialButton = ({ title, icon, onPress }: SocialButtonProps) => {
     return (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={[styles.icon, iconColor ? { color: iconColor } : {}]}>{icon}</Text>
+            {icon}
             <Text style={styles.title}>{title}</Text>
         </TouchableOpacity>
     )
@@ -27,7 +26,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         borderRadius: 8,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        gap: 8
     },
     icon: {
         fontSize: 16,

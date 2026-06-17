@@ -1,10 +1,12 @@
 import React, { useState } from "react"
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native"
+import { Image, View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../types/navigation"
 import { SocialButton } from "../components/SocialButton"
 import { Colors } from "../theme/colors"
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type LoginNavProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -16,16 +18,21 @@ export const LoginScreen = () => {
         navigation.navigate('Home');
     };
 
+    const insets = useSafeAreaInsets();
+
     return(
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.content}>
 
-                <TouchableOpacity style={styles.backButton}>
-                    <Text style={styles.backIcon}>←</Text>
+                <TouchableOpacity style={[styles.backButton, {paddingTop: insets.top}]}>
+                    <Ionicons name="arrow-back" size={28} color={Colors.textPrimary} />
                 </TouchableOpacity>
 
                 <View style={styles.logoContainer}>
-                    <Text style={styles.logoText}>S</Text>
+                    <Image 
+                        source={require('../../assets/slowly-logo.png')} 
+                        style={styles.logoImage} 
+                    />
                 </View>
 
                 <Text style={styles.title}>Bem-vindo de volta</Text>
@@ -43,18 +50,28 @@ export const LoginScreen = () => {
                 </View>
 
                 <TouchableOpacity style={styles.mainButton} onPress={handleLogin}>
-                    <Text style={styles.mainButtonText}>✉ Entrar com e-mail</Text>
+                    <Ionicons name="mail-outline" size={20} color={Colors.textDark} />
+                    <Text style={styles.mainButtonText}>Entrar com e-mail</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.socialLabel}>Entrar com:</Text>
 
                 <View style={styles.socialRow}>
-                    <SocialButton title="SMS" icon="#" iconColor={Colors.accentYellow} onPress={() => {}} />
-                    <SocialButton title="Facebook" icon="f" iconColor="#3b5998" onPress={() => {}} />
-                    <SocialButton title="Google" icon="G" iconColor="#DB4437" onPress={() => {}} />
+                    <SocialButton 
+                      title="SMS" 
+                      icon={<FontAwesome name="hashtag" size={18} color={Colors.accentYellow} />}
+                      onPress={() => {}} />
+                    <SocialButton 
+                      title="Facebook" 
+                      icon={<Ionicons name="logo-facebook" size={20} color="#3b5998" />} 
+                      onPress={() => {}} />
+                    <SocialButton 
+                      title="Google" 
+                      icon={<Ionicons name="logo-google" size={20} color="#DB4437" />}
+                      onPress={() => {}} />
                 </View>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </View>
     )    
 };
 
@@ -69,26 +86,26 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   backButton: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
   backIcon: {
     color: Colors.textPrimary,
     fontSize: 24,
   },
   logoContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: Colors.textPrimary,
+    width: 85,
+    height: 85,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 30,
+    overflow: 'hidden',
+    marginBottom: 5,
+    marginLeft: -12
+
   },
-  logoText: {
-    color: Colors.textPrimary,
-    fontSize: 24,
-    fontWeight: 'bold',
+  logoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   title: {
     color: Colors.textPrimary,
@@ -112,11 +129,14 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   mainButton: {
+    flexDirection: 'row',
     backgroundColor: Colors.buttonWhite,
     borderRadius: 8,
     paddingVertical: 16,
     alignItems: 'center',
     marginBottom: 40,
+    justifyContent: 'center',
+    gap: 10
   },
   mainButtonText: {
     color: Colors.textDark,

@@ -1,7 +1,9 @@
 import React from "react"
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList } from "react-native"
+import { Image, View, Text, StyleSheet, ScrollView, TouchableOpacity, FlatList } from "react-native"
 import { LetterCard } from "../components/LetterCard"
 import { Colors } from "../theme/colors"
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MOCK_LETTERS = [
     {
@@ -42,19 +44,24 @@ const MOCK_LETTERS = [
 ]
 
 export const HomeScreen = () => {
+    const insets = useSafeAreaInsets();
     return (
-        <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.logoContainer}>
-                    <Text style={styles.logoText}>S</Text>
-                </View>
-                <View style={styles.headerIcons}>
-                    <Text style={styles.iconText}>🔄</Text>
-                    <Text style={styles.iconText}>📷</Text>
-                </View>
-            </View>
-
+        <View style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContent}>
+                <View style={[styles.header, {paddingTop: insets.top}]}>
+                    <View style={styles.headerIcons}>
+                        <Ionicons name="sync" size={24} color={Colors.textPrimary} />
+                        <Ionicons name="qr-code-outline" size={24} color={Colors.textPrimary} />
+                    </View>
+
+                    <View style={styles.logoContainer}>
+                        <Image 
+                            source={require('../../assets/slowly-logo.png')} 
+                            style={styles.logoImage} 
+                        />
+                    </View>
+                </View>
+                
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Recebidas recentemente</Text>
                     <View style={styles.titleUnderline} />
@@ -76,17 +83,24 @@ export const HomeScreen = () => {
                     )}
                 />
 
-                <View style={styles.statusRow}>
-                    <Text style={styles.statusIcon}>📭</Text>
+                <TouchableOpacity style={styles.statusRow}>
+                    <Ionicons name="mail-open-outline" size={24} color={Colors.textSecondary} style={styles.statusIcon} />
                     <Text style={styles.statusText}>Nenhuma carta a caminho por enquanto.</Text>
-                </View>
+                </TouchableOpacity>
+                <View style={styles.statusRowLine} />
+                <TouchableOpacity style={styles.statusRow}>
+                    <Ionicons name="people-outline" size={24} color={Colors.textSecondary} style={styles.statusIcon} />
+                    <Text style={styles.statusText}>Solicitações de amizade</Text>
+                </TouchableOpacity>
                     
                 <View style={styles.actionButtonsRow}>
                     <TouchableOpacity style={styles.actionButton}>
-                        <Text style={styles.actionButtonText}>🚲 Conheça novos amigos</Text>
+                        <Ionicons name="bicycle-outline" size={18} color={Colors.accentYellow} />
+                        <Text style={styles.actionButtonText}>Conheça novos amigos</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.actionButton}>
-                        <Text style={styles.actionButtonText}>💬 Atualizar bio</Text>
+                        <Ionicons name="chatbubble-ellipses-outline" size={18} color={Colors.accentYellow} />
+                        <Text style={styles.actionButtonText}>Atualizar bio</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -129,20 +143,23 @@ export const HomeScreen = () => {
                 </TouchableOpacity>
             </ScrollView>
 
-            <View style={styles.bottomNav}>
-                <Text style={styles.navIcon}>S</Text>
-                <Text style={styles.navIcon}>✉️</Text>
+            <View style={[styles.bottomNav, {paddingBottom: insets.bottom}]}>
+                <Image 
+                    source={require('../../assets/slowly-logo.png')} 
+                    style={styles.navLogoImage} 
+                />
+                <Ionicons name="mail-outline" size={26} color={Colors.textSecondary} />
                 <View>
-                    <Text style={styles.navIcon}>👤</Text>
+                    <Ionicons name="person-outline" size={26} color={Colors.textSecondary} />
                     <View style={styles.badge}><Text style={styles.badgeText}>6</Text></View>
                 </View>
-                <Text style={styles.navIcon}>✏️</Text>
+                <Ionicons name="pencil-outline" size={26} color={Colors.textSecondary} />
                 <View>
-                    <Text style={styles.navIcon}>≡</Text>
+                    <Ionicons name="menu-outline" size={30} color={Colors.textSecondary} />
                     <View style={styles.badge}><Text style={styles.badgeText}>1</Text></View>
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -152,28 +169,33 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   header: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 8,
   },
   logoContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: Colors.textPrimary,
+    width: 95,
+    height: 95,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden'
   },
-  logoText: {
-    color: Colors.textPrimary,
-    fontSize: 20,
-    fontWeight: 'bold',
+  logoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
+  },
+  navLogoImage: {
+    width: 32,
+    height: 32,
+    resizeMode: 'contain',
+    tintColor: Colors.textSecondary
   },
   headerIcons: {
     flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingTop: 15,
     gap: 20,
   },
   iconText: {
@@ -185,7 +207,6 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     paddingHorizontal: 20,
-    marginTop: 20,
     marginBottom: 15,
   },
   sectionTitle: {
@@ -230,15 +251,21 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: Colors.card,
-    paddingVertical: 12,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8
   },
   actionButtonText: {
     color: Colors.textPrimary,
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '500',
+    flexShrink: 1,
+    textAlign: 'center'
   },
   bottomNav: {
     flexDirection: 'row',
